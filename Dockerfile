@@ -39,7 +39,9 @@ RUN set -x \
 # Configure Postfix / dkim
 RUN set -x \
   && postconf -e smtpd_banner="\$myhostname ESMTP" \
-  && postconf -Me submission/inet="submission inet n - - - - smtpd" \
+  && postconf -Me submission/inet="10024  inet  n -  n  -  1  postscreen" \
+  && postconf -Me smtpd/pass="smtpd pass  -  -  -  -  -  smtpd" \
+  && cp /etc/postfix/postfix-main.cf /etc/postfix/main.cf
   && cp -a /var/spool/postfix /var/spool/postfix.cache \
   && rm -f /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/certs/ssl-cert-snakeoil.pem \
   && rm -f /etc/opendkim.conf \
